@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rafael Miyake | Portfólio Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* VARIÁVEIS DO TEMA (Focado no Dark e Roxo) */
+        :root {
+            --bg-color: #050014; /* Fundo super escuro com tom violeta */
+            --surface-color: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(139, 92, 246, 0.15); /* Bordas levemente roxas */
+            --primary-color: #8b5cf6; /* Roxo Neon principal */
+            --secondary-color: #c084fc; /* Lilás/Roxo claro para contraste */
+            --accent-color: #7c3aed; /* Deep Purple */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glow-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+            --nav-bg: rgba(5, 0, 20, 0.7);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-main);
+            overflow-x: hidden; 
+        }
+
+        /* --- BACKGROUND DINÂMICO MODERNO ROXO --- */
+        .bg-grid {
+            position: fixed; inset: 0;
+            background-image: linear-gradient(to right, rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px; z-index: -2; pointer-events: none;
+            mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
+        }
+
+        .orb {
+            position: fixed; border-radius: 50%; filter: blur(140px);
+            opacity: 0.45; z-index: -1; pointer-events: none;
+            animation: float 15s infinite alternate ease-in-out;
+        }
+        
+        /* Composição da Nebulosa Roxa */
+        .orb-1 { top: -15%; left: -10%; width: 50vw; height: 50vh; background: var(--accent-color); }
+        .orb-2 { bottom: -10%; right: -10%; width: 55vw; height: 55vh; background: var(--primary-color); animation-delay: -5s; }
+        .orb-3 { top: 30%; left: 40%; width: 40vw; height: 40vh; background: #d946ef; animation-delay: -10s; opacity: 0.2; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(8vw, 12vh) scale(1.1); }
+            100% { transform: translate(-8vw, -5vh) scale(0.9); }
+        }
+
+        /* --- EFEITO DO MOUSE --- */
+        #cursor-glow {
+            position: fixed; width: 400px; height: 400px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
+            pointer-events: none; transform: translate(-50%, -50%);
+            z-index: 9998; transition: top 0.05s ease, left 0.05s ease;
+        }
+
+        /* --- ANIMAÇÕES DE SCROLL --- */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- NAVBAR --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 5%; background: var(--nav-bg);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed; width: 100%; top: 0; z-index: 100; transition: all 0.3s ease;
+        }
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; color: var(--text-main); text-decoration: none; }
+        .logo span { color: var(--primary-color); }
+
+        .nav-links { display: flex; align-items: center; gap: 2rem; }
+        .nav-item {
+            color: var(--text-muted); text-decoration: none; font-weight: 600;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            transition: all 0.3s ease; position: relative;
+        }
+        .nav-item::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background: var(--primary-color); transition: width 0.3s ease; }
+        .nav-item:hover { color: var(--text-main); }
+        .nav-item:hover::after { width: 100%; }
+
+        @media (max-width: 900px) { .nav-item { display: none; } }
+
+        /* --- BOTÕES --- */
+        .btn {
+            display: inline-block; text-decoration: none; position: relative;
+            padding: 10px 28px; border-radius: 50px; border: 1px solid var(--border-color);
+            background: var(--surface-color); color: var(--text-main); font-weight: 600;
+            font-size: 0.85rem; cursor: pointer; transition: all 0.4s ease;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn:hover { border-color: var(--primary-color); box-shadow: var(--glow-shadow); transform: translateY(-2px); }
+        .btn-gradient { background: linear-gradient(90deg, var(--accent-color), var(--primary-color)); border: none; color: #fff; padding: 14px 35px; font-size: 0.95rem; }
+        .btn-gradient:hover { background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); box-shadow: var(--glow-shadow); }
+
+        /* --- HERO SECTION --- */
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%; }
+        .hero h1 { font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -2px; }
+        .hero h1 { background: linear-gradient(180deg, #fff 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 650px; margin-bottom: 3rem; line-height: 1.6; }
+
+        /* --- SEÇÕES & SOBRE MIM --- */
+        section { padding: 6rem 5%; }
+        .section-title { font-size: 3rem; margin-bottom: 4rem; text-align: center; font-weight: 800; letter-spacing: -1px; position: relative; }
+        .sobre-container { display: flex; align-items: center; justify-content: center; gap: 5rem; max-width: 1100px; margin: 0 auto; }
+        .sobre-text { flex: 1; text-align: left; }
+        .sobre-text h2 { font-size: 3.5rem; margin-bottom: 1.5rem; font-weight: 800; letter-spacing: -2px; position: relative; display: inline-block; }
+        .sobre-text h2::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 80px; height: 5px; background: var(--primary-color); border-radius: 10px; box-shadow: 0 0 15px var(--primary-color); }
+        .sobre-text p { font-size: 1.3rem; line-height: 1.8; color: var(--text-muted); font-weight: 300; }
+        .sobre-image img { width: 320px; height: 320px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-color); box-shadow: 0 0 40px rgba(139, 92, 246, 0.5); transition: transform 0.5s ease; position: relative; z-index: 2; }
+        .sobre-image img:hover { transform: scale(1.05) rotate(2deg); border-color: var(--secondary-color); }
+        @media (max-width: 900px) { .sobre-container { flex-direction: column; text-align: center; gap: 3rem; } .sobre-text h2::after { left: 50%; transform: translateX(-50%); } }
+
+        /* --- CARDS (PROJETOS & HABILIDADES) --- */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
+        .card { 
+            background: var(--surface-color); border-radius: 20px; overflow: hidden; 
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; 
+            border: 1px solid var(--border-color); display: flex; flex-direction: column; 
+            height: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-decoration: none; color: inherit;
+        }
+        .card:hover { transform: translateY(-15px); border-color: var(--primary-color); box-shadow: var(--glow-shadow); }
+        .card-img { width: 100%; height: 240px; background-color: #111; background-size: cover; background-position: center; transition: transform 0.5s ease; }
+        .card:hover .card-img { transform: scale(1.05); }
+        .card-info { padding: 2rem; flex-grow: 1; background: linear-gradient(to top, rgba(5,0,20,1) 0%, rgba(5,0,20,0.8) 100%); }
+        .card-tag { font-size: 0.75rem; color: var(--secondary-color); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; display: block; margin-bottom: 0.8rem; }
+        .card-info h3 { font-size: 1.4rem; margin-bottom: 0.8rem; font-weight: 700; color: var(--text-main); }
+        .card-info p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+
+        /* --- REDES SOCIAIS --- */
+        .social-container { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
+        .social-card { display: flex; align-items: center; gap: 1.5rem; background: var(--surface-color); border: 1px solid var(--border-color); padding: 1.5rem 2rem; border-radius: 20px; text-decoration: none; color: var(--text-main); width: 100%; max-width: 400px; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .social-card svg { width: 45px; height: 45px; fill: currentColor; transition: transform 0.4s ease; }
+        .ig-card:hover { border-color: #d946ef; box-shadow: 0 10px 30px rgba(217, 70, 239, 0.2); transform: translateY(-5px); }
+        .ig-card:hover svg { color: #d946ef; transform: scale(1.1); }
+        .yt-card:hover { border-color: #ef4444; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2); transform: translateY(-5px); }
+        .yt-card:hover svg { color: #ef4444; transform: scale(1.1); }
+
+        footer { text-align: center; padding: 3rem 5%; margin-top: 4rem; border-top: 1px solid var(--border-color); background: rgba(5, 0, 20, 0.8); }
+
+        /* --- SISTEMA ADMIN & MODAIS --- */
+        .admin-btn { position: fixed; bottom: 30px; right: 30px; background: rgba(5,0,20,0.8); border: 1px solid var(--border-color); color: var(--text-main); width: 60px; height: 60px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .admin-btn:hover { background: var(--primary-color); color: white; transform: rotate(90deg); box-shadow: var(--glow-shadow); border-color: var(--primary-color); }
+        
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 2000; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        .modal.show { display: flex; opacity: 1; }
+        .modal-content { background: var(--bg-color); color: var(--text-main); padding: 2.5rem; border-radius: 20px; width: 90%; max-width: 550px; border: 1px solid var(--primary-color); box-shadow: var(--glow-shadow); transform: translateY(20px); transition: transform 0.3s ease; max-height: 85vh; overflow-y: auto;}
+        .modal.show .modal-content { transform: translateY(0); }
+        
+        .input-group { margin-bottom: 1rem; }
+        .input-group label { display: block; margin-bottom: 0.5rem; color: var(--text-muted); font-size: 0.9rem; }
+        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--surface-color); color: var(--text-main); outline: none; transition: border 0.3s ease; font-size: 1rem; }
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus { border-color: var(--primary-color); }
+        .btn-full { width: 100%; text-align: center; margin-top: 10px; }
+        .close-modal { float: right; cursor: pointer; font-size: 1.5rem; font-weight: bold; color: var(--text-muted); transition: color 0.3s; }
+        .close-modal:hover { color: white; }
+        
+        .admin-section-box { border: 1px solid var(--border-color); padding: 20px; border-radius: 15px; margin-top: 20px; background: rgba(255,255,255,0.02); }
+        
+        /* Lista de Remoção Admin */
+        .admin-list { list-style: none; padding: 0; margin-bottom: 15px;}
+        .admin-list li { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border-color); font-size: 0.9rem;}
+        .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid #ef4444; padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; font-weight: bold;}
+        .btn-delete:hover { background: #ef4444; color: white; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-glow"></div>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <nav id="navbar">
+        <a href="#home" class="logo">Rafax<span>RX</span></a>
+        <div class="nav-links">
+            <a href="#sobre" class="nav-item">Sobre Mim</a>
+            <a href="#habilidades" class="nav-item">Habilidades</a>
+            <a href="#projetos" class="nav-item">Projetos</a>
+            <a href="#sociais" class="btn">Redes Sociais</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="reveal hero-tag" style="background: rgba(139, 92, 246, 0.15); border: 1px solid var(--primary-color); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; color: var(--primary-color); font-weight: 600; margin-bottom: 2rem;">Portfólio 2026</div>
+        <h1 class="reveal" id="dom-hero-name">Rafael Miyake</h1>
+        <p class="reveal" id="dom-hero-sub">Desenvolvedor & Criador de Experiências Digitais.</p>
+        <div class="reveal" style="display: flex; gap: 15px;">
+            <a href="#sobre" class="btn btn-gradient">Conhecer Mais</a>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <div class="sobre-container reveal">
+            <div class="sobre-text">
+                <h2 id="dom-about-title">Quem é RafaxRX?</h2>
+                <p id="dom-about-text">
+                    <span style="color: var(--primary-color); font-weight: bold;">RafaxRX</span>, ou Rafael Miyake, é um jovem de 13 anos do Mato Grosso do Sul que ama tecnologia e está sempre disposto a experimentar coisas novas!
+                </p>
+            </div>
+            <div class="sobre-image">
+                <img src="IMG_20251227_165837_636.jpg" alt="Foto de Rafael Miyake">
+            </div>
+        </div>
+    </section>
+
+    <section id="habilidades">
+        <h2 class="section-title reveal">Minhas Habilidades</h2>
+        <div class="grid-container" id="dom-habilidades"></div>
+    </section>
+
+    <section id="projetos">
+        <h2 class="section-title reveal">Meus Trabalhos</h2>
+        <div class="grid-container" id="dom-projetos"></div>
+    </section>
+
+    <section id="sociais">
+        <h2 class="section-title reveal">Conecte-se Comigo</h2>
+        <div class="social-container reveal">
+            <a href="https://instagram.com/rafaxrx.ofc/" target="_blank" class="social-card ig-card">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                <div class="social-info"><h3>Instagram</h3><p>Acompanhe meu dia a dia e bastidores criativos.</p></div>
+            </a>
+            <a href="https://youtube.com/@RafaxRXOFC" target="_blank" class="social-card yt-card">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                <div class="social-info"><h3>YouTube</h3><p>Produções audiovisuais e conteúdo de alta fidelidade.</p></div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 RafaxRX. Todos os direitos reservados.</p>
+    </footer>
+
+    <button class="admin-btn" onclick="openModal('loginModal')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    </button>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModals()">&times;</span>
+            <h2 style="margin-bottom: 20px;">Acesso Restrito</h2>
+            <div class="input-group"><input type="text" id="loginUser" placeholder="Login"></div>
+            <div class="input-group"><input type="password" id="loginPass" placeholder="Senha"></div>
+            <button class="btn btn-gradient btn-full" onclick="authenticate()">Acessar Painel</button>
+            <p id="loginError" style="color: #ef4444; margin-top: 15px; display: none; text-align: center;">Acesso Negado.</p>
+        </div>
+    </div>
+
+    <div class="modal" id="adminPanel">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModals()">&times;</span>
+            <h2 style="margin-bottom: 10px;">Painel de Controle</h2>
+            
+            <div class="admin-section-box">
+                <h3 style="margin-bottom: 15px;">Gerenciar / Remover Itens</h3>
+                
+                <h4 style="color: var(--primary-color); margin-bottom: 10px;">Habilidades Cadastradas</h4>
+                <ul id="admin-skills-list" class="admin-list"></ul>
+                
+                <h4 style="color: var(--secondary-color); margin-bottom: 10px; margin-top: 20px;">Projetos Cadastrados</h4>
+                <ul id="admin-projects-list" class="admin-list"></ul>
+            </div>
+
+            <div class="admin-section-box">
+                <h3 style="margin-bottom: 15px;">Adicionar Novo Item</h3>
+                <div class="input-group">
+                    <label>Onde adicionar?</label>
+                    <select id="newItemType" onchange="toggleLinkField()">
+                        <option value="projeto">Em Projetos</option>
+                        <option value="habilidade">Em Habilidades</option>
+                    </select>
+                </div>
+                <div class="input-group"><input type="text" id="newItemTitle" placeholder="Título do Card"></div>
+                <div class="input-group"><input type="text" id="newItemDesc" placeholder="Descrição curta"></div>
+                <div class="input-group"><input type="text" id="newItemTag" placeholder="Tag (Ex: Audiovisual, Front-end)"></div>
+                <div class="input-group"><input type="url" id="newItemImg" placeholder="Link da imagem/thumb (https://...)"></div>
+                
+                <div class="input-group" id="linkFieldContainer">
+                    <input type="url" id="newItemLink" placeholder="Link de redirecionamento do projeto (Opcional)">
+                </div>
+
+                <button class="btn btn-gradient btn-full" onclick="addNewItem()">Salvar no Portfólio</button>
+            </div>
+            
+            <div class="admin-section-box">
+                <h3 style="margin-bottom: 15px;">Textos Globais</h3>
+                <div class="input-group"><label>Nome</label><input type="text" id="editName"></div>
+                <div class="input-group"><label>Subtítulo</label><input type="text" id="editSub"></div>
+                <div class="input-group"><label>Título (Sobre Mim)</label><input type="text" id="editAboutTitle"></div>
+                <div class="input-group"><label>Texto (Sobre Mim)</label><textarea id="editAboutText" rows="3"></textarea></div>
+                <button class="btn btn-full" style="background: var(--surface-color); color: var(--text-main); border: 1px solid var(--border-color);" onclick="saveTexts()">Atualizar Textos</button>
+            </div>
+
+            <button class="btn btn-full" onclick="clearData()" style="border-color: #ef4444; color: #ef4444; margin-top: 20px; background: transparent;">Restaurar Portfólio de Fábrica</button>
+        </div>
+    </div>
+
+    <script>
+        // --- INTERSECTION OBSERVER (ANIMAÇÃO CASCATA SUAVE) ---
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        function observeReveals() {
+            document.querySelectorAll('.reveal').forEach((el) => {
+                el.classList.remove('active'); 
+                observer.observe(el);
+            });
+        }
+
+        // --- SISTEMA DE DADOS (LOCALSTORAGE) ---
+        const defaultData = {
+            hero: { name: "Rafael Miyake", sub: "Desenvolvedor & Criador de Experiências Digitais." },
+            about: { title: "Quem é RafaxRX?", text: "<span style='color: var(--primary-color); font-weight: bold;'>RafaxRX</span>, ou Rafael Miyake, é um jovem de 13 anos do Mato Grosso do Sul que ama tecnologia e está sempre disposto a experimentar coisas novas!" },
+            habilidades: [
+                { title: "Conhecimento em IA", desc: "Otimização de processos criativos e estruturação.", img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80", tag: "Inovação" },
+                { title: "Produção Audiovisual", desc: "Roteiros estruturados e vídeos finalizados com estética cinematic 4K.", img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80", tag: "Direção" },
+                { title: "Fotografia & Design", desc: "Criação de thumbnails premium e iluminação de estúdio.", img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80", tag: "Visual" }
+            ],
+            projetos: [
+                { title: "Cuidando de uma Jiboia", desc: "Thumbnail premium e roteiro para vídeo educacional.", img: "https://images.unsplash.com/photo-1416879598446-248d28e75e11?auto=format&fit=crop&w=800&q=80", tag: "Audiovisual", link: "https://youtube.com/@RafaxRXOFC" },
+                { title: "VOID E-commerce", desc: "Loja online focada em conversão e design premium.", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80", tag: "Web Dev", link: "#" }
+            ]
+        };
+
+        let siteData = JSON.parse(localStorage.getItem('rafaxDB_2026_v4')) || JSON.parse(JSON.stringify(defaultData));
+
+        // --- RENDERIZAÇÃO ---
+        function renderSite() {
+            document.getElementById('dom-hero-name').innerText = siteData.hero.name;
+            document.getElementById('dom-hero-sub').innerText = siteData.hero.sub;
+            document.getElementById('dom-about-title').innerText = siteData.about.title;
+            document.getElementById('dom-about-text').innerHTML = siteData.about.text;
+
+            const habContainer = document.getElementById('dom-habilidades');
+            habContainer.innerHTML = '';
+            siteData.habilidades.forEach((hab, index) => {
+                habContainer.innerHTML += `
+                    <div class="card reveal" style="transition-delay: ${(index % 3) * 0.15}s">
+                        <div class="card-img" style="background-image: url('${hab.img}')"></div>
+                        <div class="card-info"><span class="card-tag">${hab.tag}</span><h3>${hab.title}</h3><p>${hab.desc}</p></div>
+                    </div>`;
+            });
+
+            const projContainer = document.getElementById('dom-projetos');
+            projContainer.innerHTML = '';
+            siteData.projetos.forEach((proj, index) => {
+                const linkAttr = proj.link && proj.link !== "" && proj.link !== "#" ? `href="${proj.link}" target="_blank"` : `href="javascript:void(0)" style="cursor:default;"`;
+                
+                projContainer.innerHTML += `
+                    <a ${linkAttr} class="card reveal" style="transition-delay: ${(index % 3) * 0.15}s">
+                        <div class="card-img" style="background-image: url('${proj.img}')"></div>
+                        <div class="card-info"><span class="card-tag">${proj.tag}</span><h3>${proj.title}</h3><p>${proj.desc}</p></div>
+                    </a>`;
+            });
+            
+            observeReveals();
+        }
+
+        // --- ADMIN: LOGIN ---
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+        }
+
+        function closeModals() {
+            document.querySelectorAll('.modal').forEach(m => {
+                m.classList.remove('show');
+                setTimeout(() => m.style.display = 'none', 300);
+            });
+        }
+
+        function authenticate() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            if (user === 'RafaxRX' && pass === 'janaina00pp') {
+                document.getElementById('loginError').style.display = 'none';
+                closeModals();
+                setTimeout(() => {
+                    document.getElementById('editName').value = siteData.hero.name;
+                    document.getElementById('editSub').value = siteData.hero.sub;
+                    document.getElementById('editAboutTitle').value = siteData.about.title;
+                    document.getElementById('editAboutText').value = siteData.about.text;
+                    renderAdminLists(); 
+                    openModal('adminPanel');
+                    document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = '';
+                }, 300);
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        // --- ADMIN: FUNÇÕES DE GERENCIAMENTO ---
+        function saveTexts() {
+            siteData.hero.name = document.getElementById('editName').value;
+            siteData.hero.sub = document.getElementById('editSub').value;
+            siteData.about.title = document.getElementById('editAboutTitle').value;
+            siteData.about.text = document.getElementById('editAboutText').value;
+            localStorage.setItem('rafaxDB_2026_v4', JSON.stringify(siteData));
+            renderSite();
+            alert("Textos atualizados!");
+        }
+
+        function toggleLinkField() {
+            const type = document.getElementById('newItemType').value;
+            document.getElementById('linkFieldContainer').style.display = (type === 'projeto') ? 'block' : 'none';
+        }
+
+        function addNewItem() {
+            const type = document.getElementById('newItemType').value;
+            const title = document.getElementById('newItemTitle').value;
+            const desc = document.getElementById('newItemDesc').value;
+            const tag = document.getElementById('newItemTag').value;
+            const img = document.getElementById('newItemImg').value;
+            const link = document.getElementById('newItemLink').value;
+
+            if(!title || !img) return alert("Por favor, preencha o Título e a URL da Imagem (Thumb)!");
+
+            let newItem = { title, desc, tag, img };
+            if (type === 'projeto') newItem.link = link; 
+
+            if (type === 'projeto') siteData.projetos.unshift(newItem);
+            else siteData.habilidades.push(newItem);
+
+            localStorage.setItem('rafaxDB_2026_v4', JSON.stringify(siteData));
+            renderSite();
+            renderAdminLists(); 
+
+            document.getElementById('newItemTitle').value = ''; document.getElementById('newItemDesc').value = '';
+            document.getElementById('newItemTag').value = ''; document.getElementById('newItemImg').value = ''; document.getElementById('newItemLink').value = '';
+            
+            alert("Adicionado com sucesso!");
+        }
+
+        function renderAdminLists() {
+            const sList = document.getElementById('admin-skills-list');
+            sList.innerHTML = '';
+            siteData.habilidades.forEach((item, i) => {
+                sList.innerHTML += `<li><span>${item.title}</span> <button class="btn-delete" onclick="deleteItem('habilidades', ${i})">X Excluir</button></li>`;
+            });
+
+            const pList = document.getElementById('admin-projects-list');
+            pList.innerHTML = '';
+            siteData.projetos.forEach((item, i) => {
+                pList.innerHTML += `<li><span>${item.title}</span> <button class="btn-delete" onclick="deleteItem('projetos', ${i})">X Excluir</button></li>`;
+            });
+        }
+
+        function deleteItem(type, index) {
+            if(confirm("Tem certeza que deseja remover permanentemente este item?")) {
+                siteData[type].splice(index, 1); 
+                localStorage.setItem('rafaxDB_2026_v4', JSON.stringify(siteData)); 
+                renderSite(); 
+                renderAdminLists(); 
+            }
+        }
+
+        function clearData() {
+            if(confirm("Deseja restaurar todo o portfólio para os dados de fábrica? Isso não pode ser desfeito.")) {
+                localStorage.removeItem('rafaxDB_2026_v4');
+                siteData = JSON.parse(JSON.stringify(defaultData));
+                renderSite();
+                closeModals();
+            }
+        }
+
+        // Mouse glow
+        const cursorGlow = document.getElementById('cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        // Efeitos de rolagem da navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.style.background = window.scrollY > 50 ? 'var(--nav-bg)' : 'transparent';
+            nav.style.boxShadow = window.scrollY > 50 ? '0 10px 30px rgba(0,0,0,0.5)' : 'none';
+        });
+
+        // INIT
+        window.addEventListener('load', renderSite);
+    </script>
+</body>
+</html>
